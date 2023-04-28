@@ -1,0 +1,11 @@
+accounts:
+- account_id: "031046625435"
+  name: account-1
+  regions:
+  - ap-south-1
+  role: arn:aws:iam::031046625435:role/custodian-test #lambda role
+  vars:
+    charge_code: prod #variables can be used in policies
+  tags:
+  - type:test
+#accounts_id refers to current working account ID

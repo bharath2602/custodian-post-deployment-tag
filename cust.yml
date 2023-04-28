@@ -1,0 +1,1519 @@
+policies:
+
+- name: cloudwatch-events-auto-tag
+  resource: event-rule
+  mode:
+    type: cloudtrail
+    events:
+      - source: events.amazonaws.com
+        event: PutRule
+        ids: "requestParameters.name"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: s3-auto-tag
+  resource: s3
+  mode:
+    type: cloudtrail
+    events:
+      - CreateBucket
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+      
+- name: rds-auto-tag
+  resource: rds
+  mode:
+    type: cloudtrail
+    events:
+      - CreateDBInstance
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+
+- name: rds-cluster-auto-tag
+  resource: rds-cluster
+  mode:
+    type: cloudtrail
+    events:
+        - source: rds.amazonaws.com
+          event: CreateDBCluster
+          ids: "requestParameters.dBClusterIdentifier"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+
+- name: asg-auto-tag
+  resource: asg
+  comment: |
+    This policy is triggered when a new asg is created and it 
+      Tags the asg group if the required tags is not present.
+  mode:
+    type: cloudtrail
+    events:
+      - CreateAutoScalingGroup
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+
+- name: ecr-auto-tag
+  resource: ecr
+  mode:
+    type: cloudtrail
+    events:
+        - source: ecr.amazonaws.com
+          event: CreateRepository
+          ids: "requestParameters.repositoryName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: cloudtrail-auto-tag
+  resource: cloudtrail
+  comment: |
+    This policy is triggered when a new cloudtrail is created and it 
+      Tags the cloudtrail if the required tags is not present.
+  mode:
+    type: cloudtrail
+    events:
+        - source: cloudtrail.amazonaws.com
+          event: CreateTrail
+          ids: "responseElements.trailARN"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: cloudfront-auto-tag
+  resource: distribution
+  mode:
+    type: cloudtrail
+    events:
+        - source: cloudfront.amazonaws.com
+          event: CreateDistribution
+          ids: "responseElements.distribution.id"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: codepipeline-auto-tag
+  resource: aws.codepipeline
+  mode:
+    type: cloudtrail
+    events:
+        - source: codepipeline.amazonaws.com
+          event: CreatePipeline
+          ids: "responseElements.pipeline.name"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: dynamodb-auto-tag
+  resource: aws.dynamodb-table
+  mode:
+    type: cloudtrail
+    events:
+        - source: dynamodb.amazonaws.com
+          event: CreateTable
+          ids: "responseElements.tableDescription.tableName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: route53healthcheck-auto-tag
+  resource: healthcheck
+  mode:
+    type: cloudtrail
+    events:
+        - source: route53.amazonaws.com
+          event: CreateHealthCheck
+          ids: "responseElements.healthCheck.id"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: route53hostedzone-auto-tag
+  resource: hostedzone
+  mode:
+    type: cloudtrail
+    events:
+        - source: route53.amazonaws.com
+          event: CreateHostedZone
+          ids: "responseElements.hostedZone.id"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: cloudwatch-log-group-auto-tag
+  resource: log-group
+  mode:
+    type: cloudtrail
+    events:
+        - source: logs.amazonaws.com
+          event: CreateLogGroup
+          ids: "requestParameters.logGroupName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: glacier-auto-tag
+  resource: glacier
+  mode:
+    type: cloudtrail
+    events:
+        - source: glacier.amazonaws.com
+          event: CreateVault
+          ids: "requestParameters.vaultName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: kinesis-data-stream-auto-tag
+  resource: kinesis
+  mode:
+    type: cloudtrail
+    events:
+        - source: kinesis.amazonaws.com
+          event: CreateStream
+          ids: "requestParameters.streamName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: kinesis-analytics-auto-tag
+  resource: kinesis-analytics
+  mode:
+    type: cloudtrail
+    events:
+        - source: kinesisanalytics.amazonaws.com
+          event: CreateApplication
+          ids: "responseElements.applicationSummary.applicationARN"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+
+- name: kinesis-firehose-auto-tag
+  resource: firehose
+  mode:
+    type: cloudtrail
+    events:
+        - source: firehose.amazonaws.com
+          event: CreateDeliveryStream
+          ids: "responseElements.deliveryStreamARN"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+
+
+- name: sagemaker-endpoint-auto-tag
+  resource: sagemaker-endpoint
+  mode:
+    type: cloudtrail
+    events:
+        - source: sagemaker.amazonaws.com
+          event: CreateEndpoint
+          ids: "responseElements.endpoint.endpointArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: sagemaker-job-auto-tag
+  resource: sagemaker-job
+  mode:
+    type: cloudtrail
+    events:
+        - source: sagemaker.amazonaws.com
+          event: CreateTrainingJob
+          ids: "responseElements.trainingJobArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: sagemaker-model-auto-tag
+  resource: sagemaker-model
+  mode:
+    type: cloudtrail
+    events:
+        - source: sagemaker.amazonaws.com
+          event: CreateModel
+          ids: "responseElements.modelArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: sagemaker-notebook-auto-tag
+  resource: sagemaker-notebook
+  mode:
+    type: cloudtrail
+    events:
+        - source: sagemaker.amazonaws.com
+          event: CreateNotebookInstance
+          ids: "responseElements.notebookInstanceArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: redshift-auto-tag
+  resource: redshift
+  mode:
+    type: cloudtrail
+    events:
+        - source: redshift.amazonaws.com
+          event: CreateCluster
+          ids: "responseElements.clusterIdentifier"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: redshift-snapshot-auto-tag
+  resource: redshift-snapshot
+  mode:
+    type: cloudtrail
+    events:
+        - source: redshift.amazonaws.com
+          event: CreateClusterSnapshot
+          ids: "responseElements.snapshotIdentifier"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: datapipeline-auto-tag
+  resource: datapipeline
+  mode:
+    type: cloudtrail
+    events:
+        - source: datapipeline.amazonaws.com
+          event: CreatePipeline
+          ids: "responseElements.pipelineId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: cloudwatch-alarm-auto-tag
+  resource: alarm
+  mode:
+    type: cloudtrail
+    events:
+      - source: monitoring.amazonaws.com
+        event: PutMetricAlarm
+        ids: "requestParameters.alarmName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: rest-api-auto-tag
+  resource: aws.rest-api
+  mode:
+    type: cloudtrail
+    events:
+      - source: apigateway.amazonaws.com
+        event: CreateRestApi
+        ids: "responseElements.restapiResources.restApiId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: config-rule-auto-tag
+  resource: config-rule
+  mode:
+    type: cloudtrail
+    events:
+      - source: config.amazonaws.com
+        event: PutConfigRule
+        ids: "requestParameters.configRuleName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: iam-user-auto-tag
+  resource: iam-user
+  mode:
+    type: cloudtrail
+    events:
+      - source: iam.amazonaws.com
+        event: CreateUse
+        ids: "responseElements.user.userId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: iam-role-auto-tag
+  resource: iam-role
+  mode:
+    type: cloudtrail
+    events:
+      - source: iam.amazonaws.com
+        event: CreateRole
+        ids: "responseElements.role.roleId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: codecommit-auto-tag
+  resource: codecommit
+  mode:
+    type: cloudtrail
+    events:
+      - source: codecommit.amazonaws.com
+        event: CreateRepository
+        ids: "responseElements.repositoryMetadata.repositoryName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: ami-auto-tag
+  resource: ami
+  mode:
+    type: cloudtrail
+    events:
+      - source: ec2.amazonaws.com
+        event: CreateImage
+        ids: "responseElements.imageId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: ssm-parametergrp-auto-tag
+  resource: ssm-parameter
+  mode:
+    type: cloudtrail
+    events:
+      - source: ssm.amazonaws.com
+        event: CreateQueue
+        ids: "responseElements.queueUrl"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: rds-subscription-auto-tag
+  resource: rds-subscription
+  mode:
+    type: cloudtrail
+    events:
+      - source: rds.amazonaws.com
+        event: CreateEventSubscription
+        ids: "responseElements.eventSubscriptionArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: sg-auto-tag
+  resource: security-group
+  mode:
+    type: cloudtrail
+    events:
+      - source: ec2.amazonaws.com
+        event: CreateSecurityGroup
+        ids: "responseElements.groupId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: rds-subnet-group-auto-tag
+  resource: rds-subnet-group
+  mode:
+    type: cloudtrail
+    events:
+      - source: rds.amazonaws.com
+        event: CreateDBSubnetGroup
+        ids: "responseElements.dBSubnetGroupArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: eni-auto-tag
+  resource: eni
+  mode:
+    type: cloudtrail
+    events:
+      - source: ec2.amazonaws.com
+        event: CreateNetworkInterface
+        ids: "responseElements.networkInterface.networkInterfaceId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: step-machine-auto-tag
+  resource: step-machine
+  mode:
+    type: cloudtrail
+    events:
+      - source: states.amazonaws.com
+        event: CreateStateMachine
+        ids: "responseElements.stateMachineArn"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: nacl-auto-tag
+  resource: network-acl
+  mode:
+    type: cloudtrail
+    events:
+      - source: ec2.amazonaws.com
+        event: CreateNetworkAcl
+        ids: "responseElements.networkAcl.networkAclId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: kafka-auto-tag
+  resource: kafka
+  mode:
+    type: cloudtrail
+    events:
+      - source: kafka.amazonaws.com
+        event: CreateCluster
+        ids: "responseElements.role.roleId"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
+
+- name: dax-auto-tag
+  resource: dax
+  mode:
+    type: cloudtrail
+    events:
+      - source: dax.amazonaws.com
+        event: CreateCluster
+        ids: "responseElements.cluster.clusterName"
+    tags:
+      Product: Freetext
+      Lifecycle: "{charge_code}"
+      CostCenter: US232
+      DeploymentType: new
+  filters:
+    - or:
+      - "tag:Lifecycle": absent
+      - "tag:Product": absent
+      - "tag:CostCenter": absent
+      - "tag:DeploymentType": absent
+  actions:
+    - type: tag
+      key: Product
+      value: Freetext
+
+    - type: tag
+      key: Lifecycle
+      value: "{charge_code}"
+
+    - type: tag
+      key: CostCenter
+      value: US232
+
+    - type:  tag
+      key: DeploymentType
+      value: new
+  tags:
+    - policy:all-region
