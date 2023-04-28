@@ -21,7 +21,7 @@ This can be installed using three ways
 Steps
 
 Step 1 - Install Custodian using python
-- [](https://cloudcustodian.io/docs/quickstart/index.html#install-cc)
+- <https://cloudcustodian.io/docs/quickstart/index.html#install-cc>
 
 step 2 - Install c7n-org
 
