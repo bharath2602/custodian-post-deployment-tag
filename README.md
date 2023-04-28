@@ -53,6 +53,6 @@ Step 4- For custodian to get triggered when there is a new resources , it requir
 
 step 5 - Run the command to create lambda 
 ```
-c7n-org run -c accounts.yaml -s output -u test.yaml
+c7n-org run -c accounts.yaml -s output -u cust.yaml
 ```
 
